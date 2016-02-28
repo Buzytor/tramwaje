@@ -27,8 +27,7 @@ jQuery(function($) {
 
     var layers = {};
 
-    $.ajax("tram_speed.json").success(function(data) {
-        data = JSON.parse(data);
+    $.ajax("tram_speed.json", {"dataType": "json"}).success(function(data) {
         for(var line in data) {
             line_points = data[line];
             var layerGroup = L.featureGroup();
