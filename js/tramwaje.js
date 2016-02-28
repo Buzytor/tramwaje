@@ -17,7 +17,7 @@ var speed2color = function(speed) {
 var map = null;
 jQuery(function($) {
     map = L.map('map').setView([52.232222, 21.008333], 14);
-    var layer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    var layer = L.tileLayer('http://tile.stamen.com/toner/{z}/{x}/{y}.png', {
                     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
                     maxZoom: 25,
                     minZoom: 0,
@@ -26,10 +26,13 @@ jQuery(function($) {
 
     $.ajax("tram_speed.json").success(function(data) {
         data = JSON.parse(data);
-        data.forEach(function(row) {
-            L.polyline([row["point1"], row["point2"]],
-                {color: speed2color(row["speed"]), opacity: 0.9}).addTo(map);
-        });
+        for(var line in data) {
+            line_points = data[line];
+            line_points.forEach(function(row) {
+                L.polyline([row["point1"], row["point2"]],
+                    {color: speed2color(row["speed"]), opacity: 0.9}).addTo(map);
+            });
+        }
     });
 });
 
